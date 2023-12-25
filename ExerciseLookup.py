@@ -29,7 +29,7 @@ def save_dataframe_to_excel():
 
     try:
         # Save the DataFrame as an Excel file with the 'xlsx' engine
-        df_analysis.to_excel(excel_file_path, index=False, engine='xlsx')
+        df_analysis.to_excel(excel_file_path, index=False)
         print(f"DataFrame saved successfully to {excel_file_path}")
     except Exception as e:
         print(f"An error occurred while saving the file: {e}")
@@ -142,6 +142,8 @@ for file_path in python_files:
 
 # Creating a DataFrame for the results
 df_analysis = pd.DataFrame(analysis_results)
+
+print(df_analysis.head())  # This will print the first few rows of the DataFrame
 
 # Call the function to save the DataFrame as an Excel file
 save_dataframe_to_excel()
