@@ -15,6 +15,7 @@ def extract_zip_file():
         # Opening the zip file using 'with' statement
         with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
             zip_ref.extractall(save_directory)
+            print("Extracted files:", os.listdir(save_directory))
             print(f"Files extracted successfully to {save_directory}")
     except FileNotFoundError:
         print("ZIP file not found. Please check the file path.")
@@ -22,6 +23,8 @@ def extract_zip_file():
         print("The file is not a zip file or it is corrupted.")
     except Exception as e:
         print(f"An error occurred: {e}")
+    
+    return save_directory
 
 def save_dataframe_to_excel():
     # Prompt the user for the Excel file path where they want to save the DataFrame
@@ -41,6 +44,7 @@ def get_python_files(directory):
         for file in files:
             if file.endswith('.py'):
                 python_files.append(os.path.join(root, file))
+    print("Python files found:", python_files)
     return python_files
 
 # List of built-in Python functions (as of Python 3.8)
@@ -90,28 +94,31 @@ standard_methods = {
 
 # Function to categorize functions and methods in a Python file
 def categorize_functions_methods(file_path):
-    with open(file_path, 'r') as file:
-        source = file.read()
+    try:
+        with open(file_path, 'r', encoding = 'utf-8') as file:
+            source = file.read()
 
-    tree = ast.parse(source)
-    custom_functions, built_in_functions, methods = [], [], []
+        tree = ast.parse(source)
+        custom_functions, built_in_functions, methods = [], [], []
 
-    for node in ast.walk(tree):
-        if isinstance(node, ast.FunctionDef):
-            custom_functions.append(node.name)
-        elif isinstance(node, ast.Call):
-            if isinstance(node.func, ast.Name):
-                func_name = node.func.id
-                if func_name in builtin_functions:
-                    built_in_functions.append(func_name)
-            elif isinstance(node.func, ast.Attribute):
-                method_name = node.func.attr
-                for type_name, method_list in standard_methods.items():
-                    if method_name in method_list:
-                        methods.append((method_name, type_name))
-                        break
-                else:
-                    methods.append((method_name, "custom/unknown"))
+        for node in ast.walk(tree):
+            if isinstance(node, ast.FunctionDef):
+                custom_functions.append(node.name)
+            elif isinstance(node, ast.Call):
+                if isinstance(node.func, ast.Name):
+                    func_name = node.func.id
+                    if func_name in builtin_functions:
+                        built_in_functions.append(func_name)
+                elif isinstance(node.func, ast.Attribute):
+                    method_name = node.func.attr
+                    for type_name, method_list in standard_methods.items():
+                        if method_name in method_list:
+                            methods.append((method_name, type_name))
+                            break
+                    else:
+                        methods.append((method_name, "custom/unknown"))
+    except SyntaxError as e:
+        print(f"Syntax error in file {file_path}: {e}")
 
     # Removing duplicates and sorting
     custom_functions = sorted(list(set(custom_functions)))
@@ -120,11 +127,8 @@ def categorize_functions_methods(file_path):
 
     return custom_functions, built_in_functions, methods
 
-# Define the extraction directory (hard coded)
-extraction_dir = '/mnt/data/extracted_files'
-
-# Call the function for extracting the files
-extract_zip_file()
+# Call the function for extracting the files and define the extraction directory for further use
+extraction_dir = extract_zip_file()
 
 # Retrieve all Python files from the extracted directory
 python_files = get_python_files(extraction_dir)
