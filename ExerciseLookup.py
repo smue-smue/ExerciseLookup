@@ -15,7 +15,7 @@ def extract_zip_file():
         # Opening the zip file using 'with' statement
         with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
             zip_ref.extractall(save_directory)
-            print("Extracted files:", os.listdir(save_directory))
+            # print("Extracted files:", os.listdir(save_directory))
             print(f"Files extracted successfully to {save_directory}")
     except FileNotFoundError:
         print("ZIP file not found. Please check the file path.")
