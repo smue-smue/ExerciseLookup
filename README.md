@@ -11,7 +11,7 @@ ExerciseLookup is a tool designed to help myself as a Python beginner to quickly
 ## Usage
 1. **Setting Up**: 
    - Ensure you have Python installed on your system.
-   - Install the necessary dependencies, such as `pandas`, to run the script.
+   - Install the necessary dependencies, such as `pandas` or `openpyxl`, to run the script.
 
 2. **Running the Tool**: 
    - Place your Python exercise files in a directory.
@@ -31,7 +31,7 @@ Future versions of ExerciseLookup may include:
 - Enhanced search and filter capabilities to navigate through code more effectively.
 
 ## Author
-Sandra Müllner - As a Python beginner, this tool was developed to aid in my learning journey and to streamline my coding practice.
+smue-smue - As a Python beginner, this tool was developed to aid in my learning journey and to streamline my coding practice.
 
 ## License
 This project is open-sourced under the MIT License.
