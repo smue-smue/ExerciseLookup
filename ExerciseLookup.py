@@ -28,7 +28,7 @@ def extract_zip_file():
 
 def save_dataframe_to_excel():
     # Prompt the user for the Excel file path where they want to save the DataFrame
-    excel_file_path = input("Please enter the path where you want to save the Excel file: ")
+    excel_file_path = input("Please enter the path where you want to save the Excel file (incl. file extension): ")
 
     try:
         # Save the DataFrame as an Excel file with the 'xlsx' engine
