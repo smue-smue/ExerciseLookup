@@ -8,3 +8,6 @@
 *.pdf
 *.png
 *.txt
+/venv
+/local_run
+/.vscode
